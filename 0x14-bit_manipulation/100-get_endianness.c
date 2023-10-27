@@ -1,29 +1,15 @@
 #include <stdio.h>
+#include "holberton.h"
 
+/**
+* get_endianness - Write a function that checks the endianness.
+* Prototype: int get_endianness(void).
+* Return: 1, if architecture is little endian, 0 in case of big endian.
+*/
 int get_endianness(void)
 {
-unsigned int num = 1;
-char *endian = (char *)&num;
+unsigned int x = 1;
+char *c = (char *) &x;
 
-if (*endian == 1)
-return 1;  /* Little Endian */
-else
-return 0;  /* Big Endian */
+return ((int)*c);
 }
-
-int main(void)
-{
-int n;
-
-n = get_endianness();
-if (n != 0)
-{
-printf("Little Endian\n");
-}
-else
-{
-printf("Big Endian\n");
-}
-return (0);
-}
-
