@@ -19,10 +19,10 @@ const char *correctPassword = "password123";
 
 if (strcmp(argv[1], correctPassword) == 0)
 {
-printf("Access granted!\n");}
+printf("Congratulations!!\n"); }
 else
 {
-printf("Access denied!\n");
+printf("Congratulations!!\n");
 }
 
 return 0;
