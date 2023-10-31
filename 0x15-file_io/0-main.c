@@ -4,7 +4,8 @@
 
 /**
 * main - check the code
-*
+* @ac: the number of command-line arguments
+* @av: an array of strings containing the command-line arguments
 * Return: Always 0.
 */
 int main(int ac, char **av)
