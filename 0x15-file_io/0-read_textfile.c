@@ -1,52 +1,38 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include "main.h"
 
 /**
-* main - check the code .
+* read_textfile - reads a text file and prints it to the POSIX standard output
 *
-* @ac: Arguments counter
-* @av: Arguments array
+* @filename: name of text file to be read
+* @letters: number of letters to be read from the file
 *
-* Return: Always 0.
+* Return: the actual number of letters it could read and print \n
+*if the file can not be opened or read, or is NULL, return 0
 */
-int main(int ac, char **av)
-{
-ssize_t n;
-size_t size;
-char *file;
-int fd1, fd2;
 
-if (ac != 3)
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-printf("Usage: %s filename size_to_read\n", av[0]);
-exit(1);
-}
-fd1 = open("main_0.c", O_RDONLY);
-if (fd1 == -1)
+ssize_t readfnrv;
+int fdnum;
+char *buffer;
+
+fdnum = open(filename, O_RDONLY);
+
+if (fdnum == -1)
 {
-printf("Can't open file.\n");
-return (1);
-}
-file = av[1];
-if (strcmp(file, "NULL") == 0)
-file = NULL;
-size = atoi(av[2]);
-n = read_textfile(av[1], size);
-printf("\n(printed chars: %li)\n", n);
-fd2 = open("0-read_textfile.c", O_RDONLY);
-if (fd2 == -1)
-{
-printf("Can't open file.\n");
-return (1);
-}
-if (fd2 != fd1 + 1)
-{
-printf("Stream was not closed !\n");
-return (1);
-}
 return (0);
+}
+else
+{
+buffer = malloc(letters);
+
+readfnrv = read(fdnum, buffer, letters);
+
+write(STDOUT_FILENO, buffer, readfnrv);
+
+close(fdnum);
+free(buffer);
+}
+
+return (readfnrv);
 }
