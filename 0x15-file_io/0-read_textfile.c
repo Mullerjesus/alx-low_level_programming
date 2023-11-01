@@ -1,38 +1,55 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
-* read_textfile - reads a text file and prints it to the POSIX standard output
-*
-* @filename: name of text file to be read
-* @letters: number of letters to be read from the file
-*
-* Return: the actual number of letters it could read and print \n
-*if the file can not be opened or read, or is NULL, return 0
-*/
+ * read_textfile - Reads a text file and prints its contents.
+ * @filename: The name of the file to read.
+ * @letters: The maximum number of letters to read and print.
+ *
+ * Return: The actual number of letters printed, or 0 if an error.
+ */
 
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-ssize_t readfnrv;
-int fdnum;
+FILE *file;
 char *buffer;
+ssize_t read_count, write_count;
 
-fdnum = open(filename, O_RDONLY);
+if (filename == NULL)
+return (0);
 
-if (fdnum == -1)
+file = fopen(filename, "r");
+if (file == NULL)
+return (0);
+
+buffer = malloc(sizeof(char) * (letters + 1));
+if (buffer == NULL)
 {
+fclose(file);
 return (0);
 }
-else
+
+read_count = fread(buffer, sizeof(char), letters, file);
+if (read_count == -1)
 {
-buffer = malloc(letters);
-
-readfnrv = read(fdnum, buffer, letters);
-
-write(STDOUT_FILENO, buffer, readfnrv);
-
-close(fdnum);
+fclose(file);
 free(buffer);
+return (0);
 }
 
-return (readfnrv);
+buffer[read_count] = '\0';
+
+write_count = fwrite(buffer, sizeof(char), read_count, stdout);
+if (write_count != read_count)
+{
+fclose(file);
+free(buffer);
+return (0);
 }
+
+fclose(file);
+free(buffer);
+
+return (read_count);
+}
+
