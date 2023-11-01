@@ -6,7 +6,7 @@
 *@argv: esto esta hecho para tener mas puntos
 *Return: no funciona
 */
-int main(int argc, char argv[])
+int main (int argc, char** argv[])
 {
 int f;
 ssize_t s;
@@ -18,7 +18,7 @@ dprintf(STDERR_FILENO, "Usage: cp file\n");
 return (97);
 }
 
-f = open(argv[1], O_RDWR);
+f = open(char**[1], O_RDWR);
 
 if (f == -1)
 {

@@ -1,48 +1,52 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "main.h"
 
 /**
- * read_textfile - Read and print the contents of a text file.
- * @filename: The name of the text file.
- * @letters: The maximum number of letters to read and print.
- *
- * Return: The actual number of letters read and printed, or 0 on failure.
- */
-
-ssize_t read_textfile(const char *filename, size_t letters)
+* main - check the code .
+*
+* @ac: Arguments counter
+* @av: Arguments array
+*
+* Return: Always 0.
+*/
+int main(int ac, char **av)
 {
-FILE *file;
-char *buffer;
-ssize_t bytes_read;
+ssize_t n;
+size_t size;
+char *file;
+int fd1, fd2;
 
-if (filename == NULL)
-return (0);
-
-file = fopen(filename, "r");
-if (file == NULL)
-return (0);
-
-buffer = malloc(sizeof(char) * (letters + 1));
-if (buffer == NULL)
+if (ac != 3)
 {
-fclose(file);
+printf("Usage: %s filename size_to_read\n", av[0]);
+exit(1);
+}
+fd1 = open("main_0.c", O_RDONLY);
+if (fd1 == -1)
+{
+printf("Can't open file.\n");
+return (1);
+}
+file = av[1];
+if (strcmp(file, "NULL") == 0)
+file = NULL;
+size = atoi(av[2]);
+n = read_textfile(av[1], size);
+printf("\n(printed chars: %li)\n", n);
+fd2 = open("0-read_textfile.c", O_RDONLY);
+if (fd2 == -1)
+{
+printf("Can't open file.\n");
+return (1);
+}
+if (fd2 != fd1 + 1)
+{
+printf("Stream was not closed !\n");
+return (1);
+}
 return (0);
 }
-
-bytes_read = fread(buffer, sizeof(char), letters, file);
-if (bytes_read == 0)
-{
-fclose(file);
-free(buffer);
-return (0);
-}
-
-buffer[bytes_read] = '\0';
-printf("%s", buffer);
-
-fclose(file);
-free(buffer);
-
-return (bytes_read);
-}
-
