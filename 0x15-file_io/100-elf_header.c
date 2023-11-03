@@ -114,7 +114,6 @@ exit(98);
 }
 check_elf(e_ident);
 printf("ELF Header:\n");
-printf("  Class:      );
 switch (e_ident[EI_CLASS])
 {
 case ELFCLASSNONE:
@@ -127,7 +126,7 @@ case ELFCLASS64:
 printf("ELF64\n");
 break;
 default:
-printf(" < vnknown : % x > \n", e_ident[EI_CLASS]);
+printf(" < vnknown : %x > \n", e_ident[EI_CLASS]);
 }
 
 return (0);
