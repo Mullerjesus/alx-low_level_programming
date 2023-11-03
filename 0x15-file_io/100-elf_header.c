@@ -52,6 +52,7 @@ printf("%d (current)\n", e_ident[EI_VERSION]);
 else
 printf("%d\n", e_ident[EI_VERSION]);
 }
+
 /**
 * print_type - Prints the type of an ELF header.
 * @e_type: The type of the ELF header.
@@ -113,7 +114,7 @@ exit(98);
 }
 check_elf(e_ident);
 printf("ELF Header:\n");
-printf("  Class:                            ");
+printf("  Class:      );
 switch (e_ident[EI_CLASS])
 {
 case ELFCLASSNONE:
@@ -126,12 +127,8 @@ case ELFCLASS64:
 printf("ELF64\n");
 break;
 default:
-printf("<unknown: %x>\n", e_ident[EI_CLASS]);
+printf(" < vnknown : % x > \n", e_ident[EI_CLASS]);
 }
-print_data(e_ident);
-print_version(e_ident);
-if (e_ident[EI_CLASS] == ELFCLASS32)
-print_type(elf_header.e_type, e_ident);
-close(fd);
+
 return (0);
 }
